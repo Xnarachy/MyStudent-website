@@ -1,1 +1,1478 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Document Information -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description" content="A day-to-day planner specially designed for students undertaking their Bachelor's degree in Nursing. It helps students keep track of their coursework and improve their time management while on campus.">
+
+    <title>MyStudent | Nursing Student Planner</title>
+    
+    <style>
+/* =========================================
+   MYSTUDENT — COMPLETE RESPONSIVE CSS
+   ========================================= */
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #203047;
+    background: #f4f7fb;
+    line-height: 1.6;
+}
+button, input, textarea { font: inherit; }
+button { cursor: pointer; }
+
+/* HEADER */
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+    background: #0b1f3a;
+    color: #fff;
+    box-shadow: 0 3px 12px rgba(0,0,0,.16);
+}
+.header-container {
+    width: min(1200px, 92%);
+    min-height: 76px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 22px;
+}
+.website-name {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.65rem;
+    font-weight: 800;
+    letter-spacing: .3px;
+    white-space: nowrap;
+}
+.menu-toggle {
+    display: none;
+    border: 1px solid rgba(255,255,255,.35);
+    border-radius: 8px;
+    padding: 7px 12px;
+    color: #fff;
+    background: transparent;
+    font-size: 1.35rem;
+}
+.sidebar-navigation ul {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+.sidebar-navigation a,
+.sidebar-navigation button {
+    display: block;
+    padding: 9px 11px;
+    border: 0;
+    border-radius: 6px;
+    color: #fff;
+    background: transparent;
+    text-decoration: none;
+    font-size: .94rem;
+    transition: background .2s ease, color .2s ease;
+}
+.sidebar-navigation a:hover,
+.sidebar-navigation button:hover {
+    color: #0b1f3a;
+    background: #d4af37;
+}
+.calendar-trigger {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    padding: 0;
+    border: 0;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, .14);
+    color: #fff;
+}
+.calendar-trigger:hover {
+    background: rgba(255, 255, 255, .24);
+}
+
+/* GENERAL SECTION LAYOUT */
+main { width: 100%; }
+main > section:not(.welcome-section) {
+    width: min(1100px, 90%);
+    margin: 65px auto;
+}
+section h2 {
+    margin: 0 0 24px;
+    color: #0b1f3a;
+    font-size: clamp(1.55rem, 3vw, 2rem);
+}
+
+/* WELCOME SECTION AND EMBEDDED NURSING IMAGE */
+.welcome-section {
+    min-height: 440px;
+    padding: 85px max(7%, calc((100% - 1100px)/2));
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: #fff;
+    background-image:
+        linear-gradient(110deg, rgba(5,24,48,.83), rgba(5,35,65,.42)),
+        url("data:image/webp;base64,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");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.welcome-section h1 {
+    max-width: 720px;
+    margin: 0 0 18px;
+    color: #fff;
+    font-size: clamp(2.1rem, 5vw, 3.5rem);
+    line-height: 1.15;
+}
+.welcome-section p {
+    max-width: 720px;
+    margin: 0;
+    color: #f5f8fc;
+    font-size: clamp(1rem, 2vw, 1.2rem);
+}
+
+/* DAILY SCHEDULE */
+.schedule-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+.schedule-card {
+    padding: 23px;
+    border: 1px solid #e1e8f0;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 5px 18px rgba(11,31,58,.06);
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+.schedule-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 9px 24px rgba(11,31,58,.11);
+}
+.schedule-card h3 { margin: 0 0 10px; color: #0b1f3a; font-size: 1.25rem; }
+.schedule-card h4 { margin: 0 0 8px; color: #52647a; font-size: 1.05rem; }
+.schedule-card p { margin: 5px 0; color: #536174; }
+
+/* FORMS AND INPUTS */
+#activity-form, #reminder-form, .note-editor {
+    padding: 24px;
+    border: 1px solid #e1e8f0;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 5px 18px rgba(11,31,58,.05);
+}
+#activity-form, #reminder-form { display: grid; grid-template-columns: 1fr; gap: 16px; }
+#activity-form label, #reminder-form label, .note-editor label {
+    display: block;
+    margin-bottom: 6px;
+    color: #203047;
+    font-weight: 700;
+}
+#activity-form input, #reminder-form input, #note-input {
+    width: 100%;
+    min-height: 46px;
+    padding: 11px 13px;
+    border: 1px solid #cbd5e1;
+    border-radius: 7px;
+    outline: none;
+    color: #203047;
+    background: #fff;
+    transition: border-color .2s ease, box-shadow .2s ease;
+}
+#activity-form input:focus, #reminder-form input:focus, #note-input:focus {
+    border-color: #1d6fa5;
+    box-shadow: 0 0 0 3px rgba(29,111,165,.13);
+}
+#activity-form button[type="submit"],
+#reminder-form button[type="submit"],
+.note-buttons button {
+    justify-self: start;
+    min-height: 44px;
+    padding: 10px 20px;
+    border: 0;
+    border-radius: 7px;
+    color: #fff;
+    background: #0b1f3a;
+    font-weight: 700;
+    transition: background .2s ease, transform .2s ease;
+}
+#activity-form button[type="submit"]:hover,
+#reminder-form button[type="submit"]:hover,
+.note-buttons button:hover { background: #174a75; transform: translateY(-1px); }
+
+/* ACTIVITY AND REMINDER CARDS */
+#activities-container, #reminders-container, #saved-notes {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 15px;
+    margin-top: 22px;
+}
+.activity-card, .reminder-card, .note-card {
+    padding: 19px;
+    border: 1px solid #e1e8f0;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 4px 14px rgba(11,31,58,.05);
+    overflow-wrap: anywhere;
+}
+.activity-card h3, .reminder-card h3 { margin: 0 0 9px; color: #0b1f3a; }
+.activity-card p, .reminder-card p { margin: 5px 0; color: #536174; }
+.activity-card button, .reminder-card button {
+    margin: 12px 8px 0 0;
+    padding: 7px 13px;
+    border: 0;
+    border-radius: 6px;
+    color: #fff;
+    background: #174a75;
+}
+.activity-card button:last-child, .reminder-card button { background: #a83232; }
+.activity-card button:hover, .reminder-card button:hover { filter: brightness(1.12); }
+
+/* NOTES */
+.notes-container { display: grid; grid-template-columns: 1fr; gap: 22px; }
+#note-input { display: block; min-height: 150px; resize: vertical; }
+#character-count { margin: 7px 0 14px; color: #64748b; text-align: right; font-size: .9rem; }
+.note-buttons { display: flex; flex-wrap: wrap; gap: 10px; }
+.note-buttons #delete-note { background: #a83232; }
+.note-card { cursor: pointer; transition: transform .2s ease, border-color .2s ease; }
+.note-card:hover, .note-card:focus { transform: translateY(-2px); border-color: #d4af37; outline: none; }
+.note-card p { margin: 0 0 10px; white-space: pre-wrap; }
+.note-card small { color: #64748b; }
+
+/* CALENDAR DIALOG */
+.calendar-dialog {
+    width: min(430px, 92vw);
+    max-width: 92vw;
+    padding: 24px;
+    border: 0;
+    border-radius: 15px;
+    color: #203047;
+    background: #fff;
+    box-shadow: 0 18px 60px rgba(0,0,0,.28);
+}
+.calendar-dialog::backdrop { background: rgba(4,17,34,.65); backdrop-filter: blur(3px); }
+.calendar-popup-header, .calendar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+.calendar-popup-header h2 { margin: 0; color: #0b1f3a; }
+.calendar-popup-header button, .calendar-header button {
+    width: 38px;
+    height: 38px;
+    border: 0;
+    border-radius: 7px;
+    color: #fff;
+    background: #0b1f3a;
+    font-size: 1.15rem;
+}
+.calendar-header { margin: 20px 0 14px; }
+.calendar-header h3 { margin: 0; color: #0b1f3a; text-align: center; }
+.calendar-weekdays, .calendar-days {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 5px;
+    text-align: center;
+}
+.calendar-weekdays span { padding: 7px 0; color: #64748b; font-size: .82rem; font-weight: 700; }
+.calendar-day, .calendar-empty { min-width: 0; min-height: 39px; }
+.calendar-day {
+    border: 0;
+    border-radius: 7px;
+    color: #203047;
+    background: #f0f4f8;
+}
+.calendar-day:hover { color: #fff; background: #174a75; }
+.calendar-day.today { color: #0b1f3a; background: #d4af37; font-weight: 800; }
+
+/* FOOTER */
+.site-footer {
+    margin-top: 75px;
+    padding: 28px 5%;
+    color: #eaf0f7;
+    background: #0b1f3a;
+    text-align: center;
+}
+.site-footer p { margin: 5px 0; }
+
+/* TABLET: TWO-COLUMN LAYOUT */
+@media (min-width: 600px) {
+    .schedule-container { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    #activity-form, #reminder-form { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    #activity-form button[type="submit"], #reminder-form button[type="submit"] { grid-column: 1 / -1; }
+    #activities-container, #reminders-container, #saved-notes { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .notes-container { grid-template-columns: 1fr 1fr; align-items: start; }
+}
+
+/* DESKTOP: THREE-COLUMN LAYOUT */
+@media (min-width: 900px) {
+    .schedule-container { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    #activities-container, #reminders-container, #saved-notes { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .notes-container { grid-template-columns: 1fr 1fr; }
+}
+
+/* MOBILE AND TABLET: SLIDING LEFT NAVIGATION */
+@media (max-width: 899px) {
+    .header-container { width: 92%; min-height: 68px; gap: 12px; }
+    .menu-toggle { display: inline-block; order: 0; }
+    .website-name { margin-right: auto; font-size: 1.4rem; }
+    .sidebar-navigation {
+        position: fixed;
+        top: 68px;
+        left: 0;
+        z-index: 999;
+        width: min(300px, 82vw);
+        height: calc(100vh - 68px);
+        padding: 22px 16px;
+        overflow-y: auto;
+        background: #0b1f3a;
+        box-shadow: 8px 0 22px rgba(0,0,0,.2);
+        transform: translateX(-110%);
+        visibility: hidden;
+        transition: transform .28s ease, visibility .28s ease;
+    }
+    .sidebar-navigation.menu-open {
+        transform: translateX(0);
+        visibility: visible;
+    }
+    .sidebar-navigation ul { display: flex; flex-direction: column; align-items: stretch; gap: 8px; }
+    .sidebar-navigation a, .sidebar-navigation button { width: 100%; padding: 13px 14px; text-align: left; font-size: 1rem; }
+    .welcome-section { min-height: 390px; padding: 65px 7%; }
+}
+
+@media (max-width: 420px) {
+    .header-container { gap: 8px; }
+    .website-name { font-size: 1.2rem; }
+    .calendar-trigger { padding: 8px 10px; }
+    main > section:not(.welcome-section) { width: 90%; margin: 48px auto; }
+    .welcome-section { min-height: 360px; padding: 55px 6%; }
+    #activity-form, #reminder-form, .note-editor { padding: 17px; }
+}
+</style>
+
+</head>
+
+<body>
+
+    <!-- HEADER START -->
+    <header class="site-header">
+        <div class="header-container">
+
+            <!-- Hamburger Menu Button -->
+            <button
+                class="menu-toggle"
+                id="menu-toggle"
+                type="button"
+                aria-label="Open navigation menu"
+                aria-expanded="false"
+                aria-controls="sidebar-navigation">
+                <span aria-hidden="true">&#9776;</span>
+            </button>
+
+            <!-- Website Name -->
+            <a href="#home" class="website-name">MyStudent</a>
+
+            <!-- Main Navigation -->
+            <nav
+                class="sidebar-navigation"
+                id="sidebar-navigation"
+                aria-label="Main navigation">
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#daily-schedule">Daily Schedule</a></li>
+                    <li><a href="#upcoming-activities">Upcoming Activities</a></li>
+                    <li><a href="#study-reminders">Study Reminders</a></li>
+                    <li>
+                        <button type="button" id="nav-calendar-trigger">
+                            Calendar
+                        </button>
+                    </li>
+                    <li><a href="#notes">Notes</a></li>
+                </ul>
+            </nav>
+
+            <!-- Calendar Shortcut -->
+           <button
+    class="calendar-trigger"
+    id="calendar-trigger"
+    type="button"
+    aria-label="Open calendar"
+    aria-haspopup="dialog"
+    aria-controls="calendar-dialog">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="2"
+         stroke-linecap="round" stroke-linejoin="round"
+         aria-hidden="true">
+        <rect x="3" y="4" width="18" height="17" rx="3"/>
+        <path d="M3 9.5h18"/>
+        <path d="M8 2.5v3.5M16 2.5v3.5"/>
+    </svg>
+</button>
+
+        </div>
+    </header>
+    <!-- HEADER END -->
+
+
+    <!-- MAIN CONTENT START -->
+    <main>
+
+        <!-- WELCOME SECTION START -->
+        <section id="home" class="welcome-section">
+            <h1>Welcome, dear Nursing Student!</h1>
+
+            <p>
+                MyStudent is your number one partner in ensuring
+                you never fall behind in your coursework.
+                We're here to help you stay organised, manage
+                your time effectively and maintain a healthy
+                work-life balance throughout your stay on campus.
+            </p>
+        </section>
+        <!-- WELCOME SECTION END -->
+
+
+        <!-- DAILY SCHEDULE START -->
+        <section id="daily-schedule" class="daily-schedule">
+            <h2>My Daily Schedule</h2>
+
+            <div class="schedule-container">
+
+                <article class="schedule-card">
+                    <h3>Monday</h3>
+                    <h4>General Pathology</h4>
+                    <p>9:00 a.m. — 1:00 p.m.</p>
+                    <p>Pathology Lecture Hall</p>
+                </article>
+
+                <article class="schedule-card">
+                    <h3>Tuesday</h3>
+                    <h4>Pharmacology</h4>
+                    <p>9:00 a.m. — 1:00 p.m.</p>
+                    <p>PGM LH10</p>
+                </article>
+
+                <article class="schedule-card">
+                    <h3>Wednesday</h3>
+                    <h4>Microbiology</h4>
+                    <p>9:00 a.m. — 1:00 p.m.</p>
+                    <p>Microbiology Lecture Hall</p>
+                </article>
+
+                <article class="schedule-card">
+                    <h3>Thursday</h3>
+                    <h4>Health Assessment</h4>
+                    <p>9:00 a.m. — 1:00 p.m.</p>
+                    <p>PGM LH10</p>
+                </article>
+
+                <article class="schedule-card">
+                    <h3>Friday</h3>
+                    <h4>Clinical Chemistry</h4>
+                    <p>9:00 a.m. — 1:00 p.m.</p>
+                    <p>PGM LH10</p>
+                </article>
+
+            </div>
+        </section>
+        <!-- DAILY SCHEDULE END -->
+
+
+        <!-- UPCOMING ACTIVITIES START -->
+        <section id="upcoming-activities" class="upcoming-activities">
+            <h2>Upcoming Activities</h2>
+
+            <!-- Form for adding new activities -->
+            <form id="activity-form">
+
+                <div>
+                    <label for="activity-title">Activity Title</label>
+                    <input
+                        type="text"
+                        id="activity-title"
+                        placeholder="e.g. General Pathology CAT"
+                        required>
+                </div>
+
+                <div>
+                    <label for="activity-date">Date</label>
+                    <input
+                        type="date"
+                        id="activity-date"
+                        required>
+                </div>
+
+                <div>
+                    <label for="activity-time">Time</label>
+                    <input
+                        type="time"
+                        id="activity-time"
+                        required>
+                </div>
+
+                <div>
+                    <label for="activity-venue">Venue</label>
+                    <input
+                        type="text"
+                        id="activity-venue"
+                        placeholder="Enter venue"
+                        required>
+                </div>
+
+                <button type="submit">Add Activity</button>
+            </form>
+
+            <!-- Activities will be displayed here -->
+            <div id="activities-container">
+                <p id="empty-activities">
+                    You have no upcoming activities. Add one to get started.
+                </p>
+            </div>
+        </section>
+        <!-- UPCOMING ACTIVITIES END -->
+
+
+        <!-- STUDY REMINDERS START -->
+        <section id="study-reminders" class="study-reminders">
+            <h2>Study Reminders</h2>
+
+            <form id="reminder-form">
+
+                <div>
+                    <label for="reminder-title">What do you need to remember?</label>
+                    <input
+                        type="text"
+                        id="reminder-title"
+                        placeholder="e.g. Revise General Pathology"
+                        required>
+                </div>
+
+                <div>
+                    <label for="reminder-date">Reminder Date</label>
+                    <input
+                        type="date"
+                        id="reminder-date"
+                        required>
+                </div>
+
+                <button type="submit">Add Reminder</button>
+            </form>
+
+            <div id="reminders-container">
+                <p id="empty-reminders">
+                    You have no study reminders. Add one to get started.
+                </p>
+            </div>
+        </section>
+        <!-- STUDY REMINDERS END -->
+
+
+        <!-- NOTES SECTION START -->
+        <section id="notes" class="notes-section">
+            <h2>My Notes</h2>
+
+            <div class="notes-container">
+
+                <div class="note-editor">
+                    <label for="note-input">Write your note</label>
+
+                    <textarea
+                        id="note-input"
+                        maxlength="500"
+                        rows="6"
+                        placeholder="Write something you want to remember..."></textarea>
+
+                    <p id="character-count">0 / 500 characters</p>
+
+                    <div class="note-buttons">
+                        <button type="button" id="save-note">Done</button>
+                        <button type="button" id="delete-note">Delete</button>
+                    </div>
+                </div>
+
+                <div id="saved-notes">
+                    <p id="empty-notes">
+                        You haven't saved any notes yet.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+        <!-- NOTES SECTION END -->
+
+    </main>
+    <!-- MAIN CONTENT END -->
+
+
+    <!-- CALENDAR POPUP START -->
+    <dialog id="calendar-dialog" class="calendar-dialog">
+
+        <div class="calendar-popup-header">
+            <h2>My Calendar</h2>
+
+            <button
+                type="button"
+                id="close-calendar"
+                aria-label="Close calendar">
+                &times;
+            </button>
+        </div>
+
+        <div class="calendar-container">
+
+            <div class="calendar-header">
+                <button
+                    type="button"
+                    id="popup-previous-month"
+                    aria-label="Previous month">
+                    &#10094;
+                </button>
+
+                <h3 id="popup-calendar-month-year"></h3>
+
+                <button
+                    type="button"
+                    id="popup-next-month"
+                    aria-label="Next month">
+                    &#10095;
+                </button>
+            </div>
+
+            <div class="calendar-weekdays">
+                <span>Sun</span>
+                <span>Mon</span>
+                <span>Tue</span>
+                <span>Wed</span>
+                <span>Thu</span>
+                <span>Fri</span>
+                <span>Sat</span>
+            </div>
+
+            <div
+                class="calendar-days"
+                id="popup-calendar-days">
+            </div>
+
+        </div>
+
+    </dialog>
+    <!-- CALENDAR POPUP END -->
+
+
+    <!-- FOOTER START -->
+    <footer class="site-footer">
+        <p>&copy; 2026 MyStudent. All rights reserved.</p>
+        <p>Your Nursing Journey, Organised.</p>
+    </footer>
+    <!-- FOOTER END -->
+
+<script>
+
+   // ==========================================
+// 1. GENERAL HELPER FUNCTIONS
+// ==========================================
+
+// Load saved information from the browser
+function loadFromStorage(key, fallback) {
+    try {
+        const savedData = localStorage.getItem(key);
+
+        if (savedData === null) {
+            return fallback;
+        }
+
+        return JSON.parse(savedData);
+    } catch (error) {
+        console.error("Could not load saved data:", error);
+        return fallback;
+    }
+}
+
+// Save information in the browser
+function saveToStorage(key, data) {
+    try {
+        localStorage.setItem(key, JSON.stringify(data));
+    } catch (error) {
+        console.error("Could not save data:", error);
+        alert("Your information could not be saved.");
+    }
+}
+
+// Generate a unique ID for each item
+function createId() {
+    if (crypto.randomUUID) {
+        return crypto.randomUUID();
+    }
+
+    return Date.now().toString() + Math.random().toString(16).slice(2);
+}
+
+// Format dates for display
+function formatDate(dateString) {
+    const date = new Date(dateString + "T00:00:00");
+
+    return date.toLocaleDateString("en-KE", {
+        day: "numeric",
+        month: "short",
+        year: "numeric"
+    });
+}
+
+// Convert 24-hour time to 12-hour time
+function formatTime(timeString) {
+    if (!timeString) {
+        return "";
+    }
+
+    const [hours, minutes] = timeString.split(":");
+    const date = new Date();
+
+    date.setHours(Number(hours), Number(minutes));
+
+    return date.toLocaleTimeString("en-KE", {
+        hour: "numeric",
+        minute: "2-digit",
+        hour12: true
+    });
+}
+
+
+// ==========================================
+// 2. UPCOMING ACTIVITIES
+// ==========================================
+
+// Get the HTML elements
+const activityForm = document.getElementById("activity-form");
+const activityTitle = document.getElementById("activity-title");
+const activityDate = document.getElementById("activity-date");
+const activityTime = document.getElementById("activity-time");
+const activityVenue = document.getElementById("activity-venue");
+const activitiesContainer = document.getElementById("activities-container");
+
+// Initial activities displayed when the website is first opened
+const initialActivities = [
+    {
+        id: createId(),
+        title: "General Pathology CAT",
+        date: "2026-11-16",
+        time: "09:00",
+        venue: "Pathology Lecture Hall"
+    },
+    {
+        id: createId(),
+        title: "Pharmacology Assignment",
+        date: "2026-11-10",
+        time: "",
+        venue: "Assignment submission"
+    },
+    {
+        id: createId(),
+        title: "Microbiology Practical",
+        date: "2026-11-18",
+        time: "14:00",
+        venue: "Microbiology Laboratory"
+    },
+    {
+        id: createId(),
+        title: "Communication Skills CAT",
+        date: "2026-11-09",
+        time: "14:00",
+        venue: "PGM LH10"
+    }
+];
+
+// Load activities saved previously
+let activities = loadFromStorage(
+    "mystudent-activities",
+    initialActivities
+);
+
+// Keep track of the activity currently being edited
+let editingActivityId = null;
+
+
+// Display activities on the webpage
+function displayActivities() {
+
+    activitiesContainer.innerHTML = "";
+
+    if (activities.length === 0) {
+        activitiesContainer.textContent = "No upcoming activities.";
+        return;
+    }
+
+    // Arrange activities according to their dates
+    const sortedActivities = [...activities].sort((a, b) => {
+        return new Date(a.date) - new Date(b.date);
+    });
+
+    sortedActivities.forEach(activity => {
+
+        const activityCard = document.createElement("div");
+        activityCard.className = "activity-card";
+
+        const title = document.createElement("h3");
+        title.textContent = activity.title;
+
+        const date = document.createElement("p");
+        date.textContent = "Date: " + formatDate(activity.date);
+
+        const time = document.createElement("p");
+        time.textContent = activity.time
+            ? "Time: " + formatTime(activity.time)
+            : "Time: Not specified";
+
+        const venue = document.createElement("p");
+        venue.textContent = "Venue/Details: " + activity.venue;
+
+        const editButton = document.createElement("button");
+        editButton.textContent = "Edit";
+        editButton.type = "button";
+
+        editButton.addEventListener("click", function () {
+            editActivity(activity.id);
+        });
+
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "Delete";
+        deleteButton.type = "button";
+
+        deleteButton.addEventListener("click", function () {
+            deleteActivity(activity.id);
+        });
+
+        activityCard.append(
+            title,
+            date,
+            time,
+            venue,
+            editButton,
+            deleteButton
+        );
+
+        activitiesContainer.appendChild(activityCard);
+    });
+}
+
+
+// Add a new activity or update an existing one
+activityForm.addEventListener("submit", function (event) {
+
+    event.preventDefault();
+
+    const title = activityTitle.value.trim();
+    const date = activityDate.value;
+    const time = activityTime.value;
+    const venue = activityVenue.value.trim();
+
+    if (!title || !date || !venue) {
+        alert("Please complete all required activity details.");
+        return;
+    }
+
+    if (editingActivityId) {
+
+        activities = activities.map(activity => {
+
+            if (activity.id === editingActivityId) {
+                return {
+                    ...activity,
+                    title,
+                    date,
+                    time,
+                    venue
+                };
+            }
+
+            return activity;
+        });
+
+        editingActivityId = null;
+
+    } else {
+
+        const newActivity = {
+            id: createId(),
+            title,
+            date,
+            time,
+            venue
+        };
+
+        activities.push(newActivity);
+    }
+
+    saveToStorage("mystudent-activities", activities);
+
+    displayActivities();
+
+    activityForm.reset();
+
+    const submitButton = activityForm.querySelector(
+        'button[type="submit"]'
+    );
+
+    submitButton.textContent = "Add Activity";
+});
+
+
+// Edit an existing activity
+function editActivity(id) {
+
+    const activity = activities.find(item => item.id === id);
+
+    if (!activity) {
+        return;
+    }
+
+    activityTitle.value = activity.title;
+    activityDate.value = activity.date;
+    activityTime.value = activity.time;
+    activityVenue.value = activity.venue;
+
+    editingActivityId = id;
+
+    const submitButton = activityForm.querySelector(
+        'button[type="submit"]'
+    );
+
+    submitButton.textContent = "Update Activity";
+
+    activityForm.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+    });
+}
+
+
+// Delete an activity
+function deleteActivity(id) {
+
+    const confirmed = confirm(
+        "Are you sure you want to delete this activity?"
+    );
+
+    if (!confirmed) {
+        return;
+    }
+
+    activities = activities.filter(activity => activity.id !== id);
+
+    saveToStorage("mystudent-activities", activities);
+
+    displayActivities();
+}
+
+ // ==========================================
+// 3. STUDY REMINDERS
+// ==========================================
+
+// Get the HTML elements
+const reminderForm = document.getElementById("reminder-form");
+const reminderTitle = document.getElementById("reminder-title");
+const reminderDate = document.getElementById("reminder-date");
+const remindersContainer = document.getElementById("reminders-container");
+
+// Load previously saved reminders
+let reminders = loadFromStorage("mystudent-reminders", []);
+
+
+// Display reminders on the webpage
+function displayReminders() {
+
+    remindersContainer.innerHTML = "";
+
+    if (reminders.length === 0) {
+        remindersContainer.textContent = "No study reminders yet.";
+        return;
+    }
+
+    // Arrange reminders according to their dates
+    const sortedReminders = [...reminders].sort((a, b) => {
+        return new Date(a.date) - new Date(b.date);
+    });
+
+    sortedReminders.forEach(reminder => {
+
+        const reminderCard = document.createElement("div");
+        reminderCard.className = "reminder-card";
+
+        const title = document.createElement("h3");
+        title.textContent = reminder.title;
+
+        const date = document.createElement("p");
+        date.textContent = "Reminder date: " + formatDate(reminder.date);
+
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "Delete";
+        deleteButton.type = "button";
+
+        deleteButton.addEventListener("click", function () {
+            deleteReminder(reminder.id);
+        });
+
+        reminderCard.append(title, date, deleteButton);
+
+        remindersContainer.appendChild(reminderCard);
+    });
+}
+
+
+// Add a new study reminder
+reminderForm.addEventListener("submit", function (event) {
+
+    event.preventDefault();
+
+    const title = reminderTitle.value.trim();
+    const date = reminderDate.value;
+
+    if (!title || !date) {
+        alert("Please enter a reminder title and date.");
+        return;
+    }
+
+    const newReminder = {
+        id: createId(),
+        title: title,
+        date: date
+    };
+
+    reminders.push(newReminder);
+
+    saveToStorage("mystudent-reminders", reminders);
+
+    displayReminders();
+
+    reminderForm.reset();
+});
+
+
+// Delete a study reminder
+function deleteReminder(id) {
+
+    const confirmed = confirm(
+        "Are you sure you want to delete this reminder?"
+    );
+
+    if (!confirmed) {
+        return;
+    }
+
+    reminders = reminders.filter(reminder => reminder.id !== id);
+
+    saveToStorage("mystudent-reminders", reminders);
+
+    displayReminders();
+}
+
+
+
+// ==========================================
+// 4. NOTES
+// ==========================================
+
+// Get the HTML elements
+const noteInput = document.getElementById("note-input");
+const characterCount = document.getElementById("character-count");
+const saveNoteButton = document.getElementById("save-note");
+const deleteNoteButton = document.getElementById("delete-note");
+const savedNotesContainer = document.getElementById("saved-notes");
+
+// Load previously saved notes
+let notes = loadFromStorage("mystudent-notes", []);
+
+// Track the note currently being edited
+let editingNoteId = null;
+
+
+// Update the character counter
+noteInput.addEventListener("input", function () {
+
+    const currentLength = noteInput.value.length;
+
+    characterCount.textContent = currentLength + "/500 characters";
+});
+
+
+// Display all saved notes
+function displayNotes() {
+
+    savedNotesContainer.innerHTML = "";
+
+    if (notes.length === 0) {
+        savedNotesContainer.textContent = "No saved notes yet.";
+        return;
+    }
+
+    notes.forEach(note => {
+
+        const noteCard = document.createElement("div");
+        noteCard.className = "note-card";
+
+        noteCard.setAttribute("tabindex", "0");
+        noteCard.setAttribute("role", "button");
+
+        const noteText = document.createElement("p");
+        noteText.textContent = note.content;
+
+        const noteDate = document.createElement("small");
+        noteDate.textContent = "Saved: " + formatDate(note.date);
+
+        noteCard.append(noteText, noteDate);
+
+        // Open the note when clicked
+        noteCard.addEventListener("click", function () {
+            openNoteForEditing(note.id);
+        });
+
+        // Allow keyboard users to open the note
+        noteCard.addEventListener("keydown", function (event) {
+
+            if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                openNoteForEditing(note.id);
+            }
+        });
+
+        savedNotesContainer.appendChild(noteCard);
+    });
+}
+
+
+// Save a new note or update an existing note
+saveNoteButton.addEventListener("click", function () {
+
+    const content = noteInput.value.trim();
+
+    if (!content) {
+        alert("Please write something before saving.");
+        return;
+    }
+
+    if (content.length > 500) {
+        alert("Your note cannot exceed 500 characters.");
+        return;
+    }
+
+    if (editingNoteId) {
+
+        notes = notes.map(note => {
+
+            if (note.id === editingNoteId) {
+                return {
+                    ...note,
+                    content: content,
+                    date: new Date().toISOString().split("T")[0]
+                };
+            }
+
+            return note;
+        });
+
+    } else {
+
+        const newNote = {
+            id: createId(),
+            content: content,
+            date: new Date().toISOString().split("T")[0]
+        };
+
+        notes.push(newNote);
+    }
+
+    saveToStorage("mystudent-notes", notes);
+
+    displayNotes();
+
+    resetNoteEditor();
+});
+
+
+// Open a saved note for editing
+function openNoteForEditing(id) {
+
+    const note = notes.find(item => item.id === id);
+
+    if (!note) {
+        return;
+    }
+
+    noteInput.value = note.content;
+
+    editingNoteId = id;
+
+    characterCount.textContent =
+        noteInput.value.length + "/500 characters";
+
+    saveNoteButton.textContent = "Update Note";
+    deleteNoteButton.textContent = "Delete Note";
+
+    noteInput.focus();
+}
+
+
+// Delete the currently selected note
+deleteNoteButton.addEventListener("click", function () {
+
+    if (editingNoteId) {
+
+        const confirmed = confirm(
+            "Are you sure you want to delete this note?"
+        );
+
+        if (!confirmed) {
+            return;
+        }
+
+        notes = notes.filter(note => note.id !== editingNoteId);
+
+        saveToStorage("mystudent-notes", notes);
+
+        displayNotes();
+
+        resetNoteEditor();
+
+    } else {
+
+        // If no saved note is selected, clear the writing area
+        noteInput.value = "";
+
+        characterCount.textContent = "0/500 characters";
+    }
+});
+
+
+// Reset the notes editor
+function resetNoteEditor() {
+
+    noteInput.value = "";
+
+    editingNoteId = null;
+
+    characterCount.textContent = "0/500 characters";
+
+    saveNoteButton.textContent = "Done";
+
+    deleteNoteButton.textContent = "Delete";
+}
+
+// ==========================================
+// 5. CALENDAR POPUP
+// ==========================================
+
+// Get the HTML elements
+const calendarDialog = document.getElementById("calendar-dialog");
+const calendarIcon = document.getElementById("calendar-trigger");
+const navCalendarTrigger = document.getElementById("nav-calendar-trigger");
+const closeCalendarButton = document.getElementById("close-calendar");
+
+const previousMonthButton = document.getElementById("popup-previous-month");
+const nextMonthButton = document.getElementById("popup-next-month");
+
+const calendarMonthYear = document.getElementById("popup-calendar-month-year");
+const calendarDays = document.getElementById("popup-calendar-days");
+
+// Store the month currently being displayed
+let displayedDate = new Date();
+
+
+// Open the calendar popup
+function openCalendar() {
+
+    displayedDate = new Date();
+
+    renderCalendar();
+
+    calendarDialog.showModal();
+}
+
+
+// Open calendar using the header calendar icon
+calendarIcon.addEventListener("click", openCalendar);
+
+
+// Open calendar using the navigation link
+navCalendarTrigger.addEventListener("click", function () {
+
+    openCalendar();
+
+    // Close the mobile navigation menu if it is open
+    const navigation = document.getElementById("sidebar-navigation");
+
+    if (navigation) {
+        navigation.classList.remove("menu-open");
+    }
+
+    menuToggle.setAttribute("aria-expanded", "false");
+    menuToggle.setAttribute("aria-label", "Open navigation menu");
+});
+
+
+// Close the calendar popup
+closeCalendarButton.addEventListener("click", function () {
+    calendarDialog.close();
+});
+
+
+// Close the popup when the user clicks outside its content
+calendarDialog.addEventListener("click", function (event) {
+
+    if (event.target === calendarDialog) {
+        calendarDialog.close();
+    }
+});
+
+
+// Display the calendar
+function renderCalendar() {
+
+    calendarDays.innerHTML = "";
+
+    const year = displayedDate.getFullYear();
+    const month = displayedDate.getMonth();
+
+    // Display the current month and year
+    calendarMonthYear.textContent =
+        displayedDate.toLocaleDateString("en-KE", {
+            month: "long",
+            year: "numeric"
+        });
+
+    // Find the first day of the month
+    const firstDay = new Date(year, month, 1).getDay();
+
+    // Find the number of days in the month
+    const numberOfDays = new Date(year, month + 1, 0).getDate();
+
+    // Add empty spaces before the first date
+    for (let i = 0; i < firstDay; i++) {
+
+        const emptyDay = document.createElement("div");
+
+        emptyDay.className = "calendar-empty";
+
+        calendarDays.appendChild(emptyDay);
+    }
+
+    // Get today's date
+    const today = new Date();
+
+    // Create each date in the month
+    for (let day = 1; day <= numberOfDays; day++) {
+
+        const dayButton = document.createElement("button");
+
+        dayButton.type = "button";
+
+        dayButton.textContent = day;
+
+        dayButton.className = "calendar-day";
+
+        // Highlight today's date
+        if (
+            day === today.getDate() &&
+            month === today.getMonth() &&
+            year === today.getFullYear()
+        ) {
+            dayButton.classList.add("today");
+        }
+
+        calendarDays.appendChild(dayButton);
+    }
+}
+
+
+// Move to the previous month
+previousMonthButton.addEventListener("click", function () {
+
+    displayedDate.setMonth(displayedDate.getMonth() - 1);
+
+    renderCalendar();
+});
+
+
+// Move to the next month
+nextMonthButton.addEventListener("click", function () {
+
+    displayedDate.setMonth(displayedDate.getMonth() + 1);
+
+    renderCalendar();
+});
+
+
+
+// ==========================================
+// 6. MOBILE NAVIGATION
+// ==========================================
+
+// Get the navigation elements
+const menuToggle = document.getElementById("menu-toggle");
+const mainNavigation = document.getElementById("sidebar-navigation");
+
+
+// Open and close the mobile navigation menu
+menuToggle.addEventListener("click", function () {
+
+    const isOpen = mainNavigation.classList.toggle("menu-open");
+
+    menuToggle.setAttribute("aria-expanded", isOpen);
+
+    menuToggle.setAttribute(
+        "aria-label",
+        isOpen ? "Close navigation menu" : "Open navigation menu"
+    );
+});
+
+
+// Close the navigation menu after selecting a navigation link
+const navigationLinks = mainNavigation.querySelectorAll("a");
+
+navigationLinks.forEach(link => {
+
+    link.addEventListener("click", function () {
+
+        mainNavigation.classList.remove("menu-open");
+
+        menuToggle.setAttribute("aria-expanded", "false");
+
+        menuToggle.setAttribute(
+            "aria-label",
+            "Open navigation menu"
+        );
+    });
+});
+
+
+
+// ==========================================
+// 7. INITIAL PAGE LOADING
+// ==========================================
+
+// Display saved information when the page loads
+displayActivities();
+
+displayReminders();
+
+displayNotes();
+
+</script>
+
+</body>
+</html>
 
