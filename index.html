@@ -333,24 +333,20 @@ section h2 {
     .menu-toggle { display: inline-block; order: 0; }
     .website-name { margin-right: auto; font-size: 1.4rem; }
     .sidebar-navigation {
-        position: fixed;
-        top: 68px;
-        left: 0;
-        z-index: 999;
-        width: min(300px, 82vw);
-        height: calc(100vh - 68px);
-        padding: 22px 16px;
-        overflow-y: auto;
-        background: #0b1f3a;
-        box-shadow: 8px 0 22px rgba(0,0,0,.2);
-        transform: translateX(-110%);
-        visibility: hidden;
-        transition: transform .28s ease, visibility .28s ease;
-    }
-    .sidebar-navigation.menu-open {
-        transform: translateX(0);
-        visibility: visible;
-    }
+    transform: translateX(-110%);
+    visibility: hidden;
+    transition:
+        transform .28s ease,
+        visibility 0s linear .28s;
+}
+
+.sidebar-navigation.menu-open {
+    transform: translateX(0);
+    visibility: visible;
+    transition:
+        transform .28s ease,
+        visibility 0s;
+}
     .sidebar-navigation ul { display: flex; flex-direction: column; align-items: stretch; gap: 8px; }
     .sidebar-navigation a, .sidebar-navigation button { width: 100%; padding: 13px 14px; text-align: left; font-size: 1rem; }
     .welcome-section { min-height: 390px; padding: 65px 7%; }
