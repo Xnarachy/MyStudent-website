@@ -334,18 +334,11 @@ section h2 {
     .website-name { margin-right: auto; font-size: 1.4rem; }
     .sidebar-navigation {
     transform: translateX(-110%);
-    visibility: hidden;
-    transition:
-        transform .28s ease,
-        visibility 0s linear .28s;
+    transition: transform .28s ease;
 }
 
 .sidebar-navigation.menu-open {
     transform: translateX(0);
-    visibility: visible;
-    transition:
-        transform .28s ease,
-        visibility 0s;
 }
     .sidebar-navigation ul { display: flex; flex-direction: column; align-items: stretch; gap: 8px; }
     .sidebar-navigation a, .sidebar-navigation button { width: 100%; padding: 13px 14px; text-align: left; font-size: 1rem; }
